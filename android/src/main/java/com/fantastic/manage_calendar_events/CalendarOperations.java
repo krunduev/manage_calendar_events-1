@@ -93,7 +93,22 @@ public class CalendarOperations {
         if (!hasPermissions()) {
             requestPermissions();
         }
-        Cursor cur = cr.query(uri, mProjection, null, null, null);
+        Cursor cur = cr.query(
+                uri,
+                mProjection,
+                Calendars.VISIBLE + " = 1 AND " + Calendars.IS_PRIMARY + "=1",
+                null,
+                Calendars._ID + " ASC"
+        );
+        if (cur != null && cur.getCount() <= 0) {
+            cur = cr.query(
+                    uri,
+                    mProjection,
+                    Calendars.VISIBLE + " = 1",
+                    null,
+                    Calendars._ID + " ASC"
+            );
+        }
 
         try {
             while (cur.moveToNext()) {
@@ -206,6 +221,7 @@ public class CalendarOperations {
         String currentTimeZone = java.util.Calendar.getInstance().getTimeZone().getDisplayName();
         String eventId = event.getEventId() != null ? event.getEventId() : null;
         ContentValues values = new ContentValues();
+        values.put(Events.AVAILABILITY, Events.AVAILABILITY_FREE);
         values.put(Events.DTSTART, event.getStartDate());
         values.put(Events.DTEND, event.getEndDate());
         values.put(Events.TITLE, event.getTitle());

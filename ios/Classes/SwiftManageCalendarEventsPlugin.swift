@@ -175,12 +175,10 @@ public class SwiftManageCalendarEventsPlugin: NSObject, FlutterPlugin {
         if(!hasPermissions()) {
             requestPermissions()
         }
-        let ekCalendars = self.eventStore.calendars(for: .event)
         var calendars = [Calendar]()
-        for ekCalendar in ekCalendars {
-            let calendar = Calendar(id: ekCalendar.calendarIdentifier, name: ekCalendar.title, accountName: "", ownerName: "", isReadOnly: !ekCalendar.allowsContentModifications)
-            calendars.append(calendar)
-        }
+        let ekCalendar = self.eventStore.defaultCalendarForNewEvents!
+        let calendar = Calendar(id: ekCalendar.calendarIdentifier, name: ekCalendar.title, accountName: "", ownerName: "", isReadOnly: !ekCalendar.allowsContentModifications)
+        calendars.append(calendar)
 
         let jsonEncoder = JSONEncoder()
         var jsonString = ""
