@@ -10,7 +10,7 @@
 .svn/
 
 # IntelliJ related
-*.iml
+# *.iml
 *.ipr
 *.iws
 .idea/
@@ -30,13 +30,12 @@
 /build/
 
 # Android related
-**/android/**/gradle-wrapper.jar
+# **/android/**/gradle-wrapper.jar
 **/android/.gradle
 **/android/captures/
 **/android/gradlew
-**/android/gradlew.bat
+# **/android/gradlew.bat
 **/android/local.properties
-**/android/**/GeneratedPluginRegistrant.java
 
 # iOS/XCode related
 **/ios/**/*.mode1v3

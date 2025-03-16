@@ -1,16 +1,17 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
 
 class EventDetails extends StatefulWidget {
   final CalendarEvent activeEvent;
   final CalendarPlugin calendarPlugin;
+  final bool isReadOnly;
 
   EventDetails({
     required this.activeEvent,
     required this.calendarPlugin,
+    this.isReadOnly = false,
   });
 
   @override
@@ -36,7 +37,7 @@ class _EventDetailsState extends State<EventDetails> {
                 children: <Widget>[
                   Text(
                     'Description: ${this.widget.activeEvent.description}',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 20),
                   Text('Start Date: ${this.widget.activeEvent.startDate}'),
@@ -61,14 +62,16 @@ class _EventDetailsState extends State<EventDetails> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          setState(() {
-            _addAttendee(widget.activeEvent.eventId!);
-          });
-        },
-      ),
+      floatingActionButton: widget.isReadOnly
+          ? null
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () async {
+                setState(() {
+                  _addAttendee(widget.activeEvent.eventId!);
+                });
+              },
+            ),
     );
   }
 

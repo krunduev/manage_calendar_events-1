@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manage_calendar_events/manage_calendar_events.dart';
+
 import 'event_list.dart';
 
 class CalendarList extends StatelessWidget {
@@ -22,12 +22,18 @@ class CalendarList extends StatelessWidget {
               Calendar calendar = calendars[index];
               return ListTile(
                 title: Text(calendar.name!),
+                subtitle: calendar.isReadOnly != null && calendar.isReadOnly!
+                    ? Text('Read Only')
+                    : null,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return EventList(calendarId: calendar.id!);
+                        return EventList(
+                          calendarId: calendar.id!,
+                          isReadOnly: calendar.isReadOnly ?? false,
+                        );
                       },
                     ),
                   );
@@ -50,7 +56,7 @@ class CalendarList extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   'Calendars List',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
             ),
